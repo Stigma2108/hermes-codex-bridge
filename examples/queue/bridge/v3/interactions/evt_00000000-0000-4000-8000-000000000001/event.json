@@ -1,0 +1,25 @@
+{
+  "schema": "hermes-codex-interaction-event/v3",
+  "event_id": "evt_00000000-0000-4000-8000-000000000001",
+  "kind": "QUESTION",
+  "created_at": "2026-07-19T12:00:00.000Z",
+  "expires_at": "2026-07-26T12:00:00.000Z",
+  "thread": {
+    "id": "thread-example",
+    "turn_id": "turn-example",
+    "title": "Example integration question",
+    "project_label": "Example Project",
+    "cwd_label": "Example Workspace"
+  },
+  "message": {
+    "summary": "Is the example integration ready?",
+    "markdown_path": null,
+    "is_replyable": true,
+    "reply_mode": "LIVE_REQUEST"
+  },
+  "allowed_actions": ["REPLY"],
+  "integrity": {
+    "producer": "codex-windows-local",
+    "content_sha256": "41639792951abf8dc175dc8260315d8c61e30cee45ab2d1e78b262c2fb83b196"
+  }
+}

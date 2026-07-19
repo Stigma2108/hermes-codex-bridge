@@ -1,0 +1,11 @@
+{
+  "schema": "hermes-codex-interaction-reply/v3",
+  "event_id": "evt_00000000-0000-4000-8000-000000000001",
+  "created_at": "2026-07-19T12:01:00.000Z",
+  "action": "REPLY",
+  "text": "Yes, continue with the synthetic example.",
+  "telegram": {
+    "delivery_ref": "tgmsg_1",
+    "sender_fingerprint": "e4197d4d64201cebc911b6805bcc07521d470bf8826160509993a3af7d06a2b3"
+  }
+}

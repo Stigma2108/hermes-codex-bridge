@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hermes-codex-interaction-delivery/v3",
+  "type": "object",
+  "required": ["schema", "event_id", "delivery_ref", "created_at", "attempts"],
+  "properties": {
+    "schema": {"const": "hermes-codex-interaction-delivery/v3"},
+    "event_id": {"type": "string", "pattern": "^evt_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+    "delivery_ref": {"type": "string", "minLength": 1, "maxLength": 256, "description": "opaque provider delivery reference; never a token or chat identifier"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "attempts": {"type": "integer", "minimum": 1, "maximum": 1000000}
+  },
+  "additionalProperties": true
+}

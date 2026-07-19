@@ -1,0 +1,13 @@
+{
+  "schema": "hermes-codex-bridge-config/v3",
+  "queueRoot": "C:\\Users\\YOUR_NAME\\Sync\\HermesCodex\\Queue\\bridge\\v3",
+  "codexHome": "C:\\Users\\YOUR_NAME\\.codex",
+  "codexCommand": "C:\\Path\\To\\codex.exe",
+  "stateRoot": "C:\\Users\\YOUR_NAME\\AppData\\Local\\HermesCodexBridge\\state",
+  "allowedWorkspaceRoots": ["C:\\Users\\YOUR_NAME\\Projects"],
+  "pollMinMs": 1000,
+  "pollMaxMs": 1500,
+  "replyTtlSeconds": 604800,
+  "approvalTtlSeconds": 43200,
+  "uiRouterMode": "native"
+}

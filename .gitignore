@@ -1,0 +1,16 @@
+tests/tmp/
+handoff/
+logs/
+state/
+config/config.local.json
+*.tmp
+*.partial
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+.syncthing.*.tmp
+sync-conflict-*
+/Queue/
+public-export/

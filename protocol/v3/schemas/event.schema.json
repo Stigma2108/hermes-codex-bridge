@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hermes-codex-interaction-event/v3",
+  "type": "object",
+  "required": ["schema", "event_id", "kind", "created_at", "expires_at", "thread", "message", "allowed_actions", "integrity"],
+  "properties": {
+    "schema": {"const": "hermes-codex-interaction-event/v3"},
+    "event_id": {"type": "string", "pattern": "^evt_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+    "kind": {"enum": ["FINAL_RESPONSE", "QUESTION", "APPROVAL_REQUEST", "ERROR", "TASK_COMPLETED"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "thread": {"type": "object", "required": ["id", "turn_id", "title", "project_label", "cwd_label"], "properties": {"id": {"type": "string", "minLength": 1, "maxLength": 256}, "turn_id": {"type": "string", "minLength": 1, "maxLength": 256}, "title": {"type": "string", "minLength": 1, "maxLength": 256}, "project_label": {"type": "string", "minLength": 1, "maxLength": 128}, "cwd_label": {"type": "string", "maxLength": 128}}, "additionalProperties": true},
+    "message": {"type": "object", "required": ["summary", "markdown_path", "is_replyable"], "properties": {"summary": {"type": "string", "maxLength": 3500}, "markdown_path": {"enum": [null, "message.md"]}, "is_replyable": {"type": "boolean"}, "reply_mode": {"enum": ["LIVE_REQUEST", "NEXT_TURN", "NONE"]}}, "additionalProperties": true},
+    "allowed_actions": {"type": "array", "uniqueItems": true, "maxItems": 3, "items": {"enum": ["REPLY", "APPROVE_ONCE", "DECLINE"]}},
+    "integrity": {"type": "object", "required": ["producer", "content_sha256"], "properties": {"producer": {"type": "string", "minLength": 1, "maxLength": 128}, "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}, "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

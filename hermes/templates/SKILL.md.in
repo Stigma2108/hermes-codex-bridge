@@ -1,0 +1,27 @@
+---
+name: hermes-codex-telegram-reply-v3
+description: Route an explicitly threaded Telegram Reply to its exact Codex v3 interaction.
+---
+
+# Hermes–Codex Telegram Reply v3
+
+Use this skill only for a Telegram Reply whose replied-to message contains the exact standalone route line `HC3:<uuid>` either among the first four lines or as the final footer. New bridge messages deliberately repeat the same route near the top so a bounded gateway `reply_to_text` preview remains routable; both occurrences must be identical when both are visible. No callback handler is required and the existing Telegram adapter must not be modified. Do not trigger it for ordinary unthreaded text. For that text answer exactly in Russian: `Ответьте на нужное сообщение Codex`.
+
+The interaction root is `@QUEUE_ROOT@/interactions`; protocol files are under the sibling `Queue/protocol/v3`. Work only with the exact `evt_<uuid>` selected by the replied-to footer. Never search titles, infer a thread, use a “current” event, edit `event.json`, or follow symlinks.
+
+For a matching Telegram Reply:
+
+1. Extract only the exact footer UUID, the actual replied-to Telegram `message_id`, the actual sender `from.id`, and the Reply text from the live adapter update. Do not write or log raw IDs or text.
+2. Invoke `@PYTHON@ @RUNTIME_ROOT@/inbound.py --interaction-root @QUEUE_ROOT@/interactions --env-file @ENV_FILE@`. Pass one JSON object on stdin with exactly `event_id` (`evt_<uuid>`), `reply_to_message_id`, `sender_id`, and `text`. Never place these values in command-line arguments, a temporary file, or logs.
+3. The runtime is the sole writer and validator. It verifies the private configured owner, fingerprint, exact event and delivery reference, terminal state, TTL, allowed action, secret patterns, schema, mode, fsync, and no-replace publication. Do not create or edit `reply.json` yourself and do not retry after a rejection.
+4. For approvals the only accepted plain-text Replies are exact trimmed `ОДОБРИТЬ ОДИН РАЗ` and `ОТКЛОНИТЬ`. They deliberately have no leading slash, so the existing gateway passes them as ordinary text. All other approval text is rejected.
+
+Use `@PYTHON@` and the validators from `@RUNTIME_ROOT@/contracts.py`; run offline verification with:
+
+```sh
+cd @RUNTIME_ROOT@
+@PYTHON@ -m unittest discover -s . -p 'test_*.py' -v
+/usr/bin/systemctl status hermes-codex-bridge.service --no-pager
+```
+
+Responses and errors must contain only stable codes and shortened event UUIDs. Never echo raw event/reply payload, token, chat ID, endpoint URL, configured private paths, or credential-like text.

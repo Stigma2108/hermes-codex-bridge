@@ -1,0 +1,19 @@
+{
+  "name": "hermes-codex-telegram-bridge",
+  "version": "1.0.0",
+  "description": "Secure, local-first Telegram bridge between Hermes Agent and OpenAI Codex Desktop.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Stigma2108/hermes-codex-bridge"
+  },
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test --test-reporter=spec",
+    "check": "node --check src/contracts.mjs",
+    "test:e2e": "pwsh -NoProfile -File ../tests/e2e/Run-LocalBridgeE2E.ps1",
+    "test:v3": "pwsh -NoProfile -File ../tests/Run-V3Tests.ps1"
+  }
+}

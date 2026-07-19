@@ -1,0 +1,13 @@
+{
+  "schema": "hermes-codex-bridge-config/v3",
+  "queueRoot": "<WINDOWS_SHARED_ROOT>\\Queue\\bridge\\v3",
+  "codexHome": "<WINDOWS_CODEX_HOME>",
+  "codexCommand": "<WINDOWS_CODEX_COMMAND>",
+  "stateRoot": "<WINDOWS_STATE_ROOT>",
+  "allowedWorkspaceRoots": ["<WINDOWS_WORKSPACE_ROOT>"],
+  "pollMinMs": 1000,
+  "pollMaxMs": 1500,
+  "replyTtlSeconds": 604800,
+  "approvalTtlSeconds": 43200,
+  "uiRouterMode": "native"
+}

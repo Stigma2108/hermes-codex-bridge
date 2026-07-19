@@ -1,0 +1,39 @@
+{
+  "schema": "hermes-codex-bridge-protocol/v3",
+  "interaction_root_relative": "Queue/bridge/v3/interactions",
+  "windows_owned": ["event.json", "message.md", "receipt.json", "windows-failure.json"],
+  "hermes_owned": ["delivery.json", "reply.json", "hermes-failure.json"],
+  "event_kinds": ["FINAL_RESPONSE", "QUESTION", "APPROVAL_REQUEST", "ERROR", "TASK_COMPLETED"],
+  "reply_actions": ["REPLY", "APPROVE_ONCE", "DECLINE"],
+  "reply_modes": ["LIVE_REQUEST", "NEXT_TURN", "NONE"],
+  "receipt_statuses": ["APPLIED", "DECLINED", "EXPIRED", "REJECTED", "FAILED"],
+  "reply_ttl_seconds": 604800,
+  "approval_ttl_seconds": 43200,
+  "telegram_reply_commands": {"approve_once": "ОДОБРИТЬ ОДИН РАЗ", "decline": "ОТКЛОНИТЬ"},
+  "sender_fingerprint": {
+    "algorithm": "sha256",
+    "domain_prefix_ascii": "hermes-codex-v3:telegram-user:",
+    "identity": "verified canonical positive base-10 Telegram from.id"
+  },
+  "examples": {
+    "event": {
+      "schema": "hermes-codex-interaction-event/v3",
+      "event_id": "evt_019f74b5-c168-7381-9629-d395da0255f7",
+      "kind": "FINAL_RESPONSE",
+      "created_at": "2026-07-18T12:00:00.000Z",
+      "expires_at": "2026-07-25T12:00:00.000Z",
+      "thread": {"id": "thread-example", "turn_id": "turn-example", "title": "Example", "project_label": "Project", "cwd_label": "Workspace"},
+      "message": {"summary": "Example response", "markdown_path": null, "is_replyable": true},
+      "allowed_actions": ["REPLY"],
+      "integrity": {"producer": "codex-windows-local", "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+    },
+    "reply": {
+      "schema": "hermes-codex-interaction-reply/v3",
+      "event_id": "evt_019f74b5-c168-7381-9629-d395da0255f7",
+      "created_at": "2026-07-18T12:01:00.000Z",
+      "action": "REPLY",
+      "text": "Continue",
+      "telegram": {"delivery_ref": "opaque-delivery-reference", "sender_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+    }
+  }
+}

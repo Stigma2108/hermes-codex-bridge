@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hermes-codex-interaction-receipt/v3",
+  "type": "object",
+  "required": ["schema", "event_id", "processed_at", "status"],
+  "properties": {
+    "schema": {"const": "hermes-codex-interaction-receipt/v3"},
+    "event_id": {"type": "string", "pattern": "^evt_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+    "processed_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["APPLIED", "DECLINED", "EXPIRED", "REJECTED", "FAILED"]},
+    "action": {"enum": ["REPLY", "APPROVE_ONCE", "DECLINE"]},
+    "error": {"type": ["object", "null"], "properties": {"code": {"type": "string", "minLength": 1, "maxLength": 64}, "message": {"type": "string", "maxLength": 512}}, "required": ["code"], "additionalProperties": false}
+  },
+  "additionalProperties": true
+}

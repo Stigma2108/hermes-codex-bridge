@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hermes-codex-interaction-reply/v3",
+  "type": "object",
+  "required": ["schema", "event_id", "created_at", "action", "text", "telegram"],
+  "properties": {
+    "schema": {"const": "hermes-codex-interaction-reply/v3"},
+    "event_id": {"type": "string", "pattern": "^evt_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "action": {"enum": ["REPLY", "APPROVE_ONCE", "DECLINE"]},
+    "text": {"type": ["string", "null"], "maxLength": 3500},
+    "telegram": {"type": "object", "required": ["delivery_ref", "sender_fingerprint"], "properties": {"delivery_ref": {"type": "string", "minLength": 1, "maxLength": 256}, "sender_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}, "additionalProperties": true}
+  },
+  "additionalProperties": true
+}

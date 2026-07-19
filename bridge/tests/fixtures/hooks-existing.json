@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "vendor": { "kept": true },
+  "hooks": {
+    "Stop": [
+      { "matcher": "", "hooks": [{ "type": "command", "command": "node C:\\fictional\\gsd-stop.mjs", "timeout": 15 }] }
+    ],
+    "PermissionRequest": [
+      { "hooks": [{ "type": "command", "command": "node C:\\fictional\\gsd-permission.mjs", "timeout": 30 }] }
+    ],
+    "OtherHook": [{ "fictional": "untouched" }]
+  }
+}

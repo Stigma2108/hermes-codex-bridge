@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Set up Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Run unified Windows verification
+        shell: pwsh
+        run: ./tests/Run-V3Tests.ps1
+        # Includes Run-LocalBridgeE2E.ps1, Run-AdaptiveRoutingE2E.ps1,
+        # and Run-NativeInboundRouterE2E.ps1 without live credentials.
+
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Set up Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Parse PowerShell scripts
+        shell: pwsh
+        run: |
+          $errors = [System.Collections.Generic.List[System.Management.Automation.Language.ParseError]]::new()
+          Get-ChildItem -Recurse -File -Filter '*.ps1' | ForEach-Object {
+            $tokens = $null
+            $fileErrors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$fileErrors)
+            foreach ($error in $fileErrors) { $errors.Add($error) }
+          }
+          if ($errors.Count -ne 0) { throw "POWERSHELL_PARSE_FAILED:$($errors[0].Message)" }
+      - name: Check Node.js syntax
+        shell: bash
+        run: find bridge/src tests/e2e -type f -name '*.mjs' -print0 | sort -z | xargs -0 -n1 node --check
+      - name: Run Node.js tests
+        working-directory: bridge
+        run: npm test
+      - name: Run Python tests
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          PYTHONPATH: hermes
+        run: python -m unittest hermes.test_contracts hermes.test_doctor hermes.test_inbound hermes.test_watcher -v
+      - name: Run sandbox install and uninstall tests
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python hermes/test_install_scripts.py -v
+      - name: Parse lifecycle shell scripts
+        run: bash -n hermes/scripts/install.sh hermes/scripts/uninstall.sh

@@ -1,0 +1,20 @@
+[Unit]
+Description=Hermes Codex Telegram Bridge v3
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=@SERVICE_USER@
+EnvironmentFile=@ENV_FILE@
+ExecStart=@PYTHON@ @RUNTIME_ROOT@/watcher.py --queue-root @QUEUE_ROOT@ --state-root @STATE_ROOT@
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=@QUEUE_ROOT@ @STATE_ROOT@
+
+[Install]
+WantedBy=multi-user.target
